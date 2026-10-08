@@ -89,6 +89,8 @@ BITMIS = {EKLENDI, ZATEN_GRUPTA, DAVET_GONDERILDI, WA_YOK}
 T_YENI_SOHBET = ["Yeni sohbet", "New chat"]
 T_YENI_KISI = ["Yeni kişi", "New contact"]
 T_KAYDET = ["Kaydet", "Save"]
+# "Yeni kişi" formundaki yeşil tik (kaydet) butonunun tam XPath'i
+TIK_XPATH = "/html/body/div[1]/div/div/div/div/div[3]/div/div[2]/div[1]/div/span/div/span/div/div/div[2]/span/div/span"
 T_UYE_EKLE = ["Kişi ekle", "Add member", "Add members", "Add participant"]
 T_EKLE = ["Ekle", "Kişi ekle", "Add", "Add member", "Add participant"]
 T_IPTAL = ["İptal", "Vazgeç", "Kapat", "Tamam", "Cancel", "Close", "OK"]
@@ -341,14 +343,15 @@ class WhatsApp:
             self.esc(2)
             return WA_YOK
 
-        # Kaydetme butonu formun altındaki yeşil tik (✓); yazılı "Kaydet" butonu yedek olarak aranır
-        tik = self.bul([
+        # Kaydetme butonu formun altındaki yeşil tik (✓). Önce bilinen tam XPath denenir;
+        # WhatsApp arayüzü değişip o yol bozulursa diğer yöntemler yedek olarak devreye girer.
+        tik = self.bul(TIK_XPATH, 5) or self.bul([
             ".//*[contains(@data-icon, 'checkmark')]",
             ".//*[@role='button' or self::button][@aria-label='Onayla' or @aria-label='Kaydet'"
             " or @aria-label='Bitti' or @aria-label='Confirm' or @aria-label='Save' or @aria-label='Done']",
             X_TAM(T_KAYDET, ".//"),
             ".//button[@type='submit']",
-        ], 5, kok=panel) or self.ustteki_tik()
+        ], 2, kok=panel) or self.ustteki_tik()
         if not tik:
             self.form_dok(panel, uye)
             self.esc(2)
