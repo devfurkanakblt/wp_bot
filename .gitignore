@@ -1,0 +1,20 @@
+# Kişisel veriler (üye listesi ve raporlar) - asla commit'leme
+*.xlsx
+*.xls
+*.csv
+
+# WhatsApp oturumu (hesaba erişim sağlar!) ve hata dökümleri
+whatsapp_profil/
+hata_ekranlari/
+
+# Davet linkini içeren yerel ayarlar
+ayarlar.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Eski boş klon
+wp_bot/
