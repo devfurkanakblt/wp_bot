@@ -18,3 +18,6 @@ venv/
 
 # Eski boş klon
 wp_bot/
+
+# İzleme modu kaydı (üye adı / telefon içerebilir)
+izleme_kaydi.txt
